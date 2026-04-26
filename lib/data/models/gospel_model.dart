@@ -5,12 +5,14 @@ class GospelModel extends Equatable {
     required this.arabic,
     required this.english,
     required this.coptic,
+    this.reference = '',
   });
 
   final String arabic;
   final String english;
   final String coptic;
+  final String reference;
 
   @override
-  List<Object> get props => <Object>[arabic, english, coptic];
+  List<Object> get props => <Object>[arabic, english, coptic, reference];
 }

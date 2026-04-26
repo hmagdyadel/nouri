@@ -28,198 +28,311 @@ class HomeScreen extends StatelessWidget {
             return Center(child: Text(state.message));
           }
           final HomeLoaded loaded = state as HomeLoaded;
-          final String greeting = switch (loaded.greeting) {
-            'morning' => l10n.greeting_morning,
-            'afternoon' => l10n.greeting_afternoon,
-            _ => l10n.greeting_evening,
-          };
-          return CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                floating: true,
-                title: GestureDetector(
-                  onLongPress: () => context.push('/design-preview'),
-                  child: Text('${l10n.nameBranding} • $greeting'),
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    onPressed: () {
-                      showModalBottomSheet<void>(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (_) => const ProfileBottomSheet(),
-                      );
-                    },
-                    icon: const CircleAvatar(
-                      radius: 14,
-                      child: Icon(Icons.person, size: 16),
-                    ),
-                  ),
-                ],
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
-                  child: Align(
-                    alignment: AlignmentDirectional.center,
-                    child: Text(
-                      loaded.copticDate,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.arabicBody.copyWith(fontSize: 14),
-                    ),
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.all(16),
-                  child: RepaintBoundary(
-                    key: context.read<HomeCubit>().cardKey,
-                    child: Container(
-                      padding: const EdgeInsetsDirectional.all(16),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: <Color>[AppColors.primaryGoldLight, AppColors.backgroundNavy],
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+          return SafeArea(
+            bottom: false,
+            child: Container(
+              color: AppColors.backgroundIvory,
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                      child: Row(
                         children: <Widget>[
-                          Text(loaded.cardCoptic, textAlign: TextAlign.start, style: AppTextStyles.coptic),
-                          const SizedBox(height: 12),
-                          Text(
-                            loaded.cardArabic,
-                            textAlign: TextAlign.start,
-                            style: AppTextStyles.arabicBody.copyWith(color: Colors.white, fontSize: 22),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            loaded.cardEnglish,
-                            textAlign: TextAlign.start,
-                            style: AppTextStyles.heading.copyWith(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic),
-                          ),
-                          if ((loaded.displayName ?? '').isNotEmpty || (loaded.username ?? '').isNotEmpty) ...<Widget>[
-                            const SizedBox(height: 8),
-                            Text(
-                              '${loaded.displayName ?? ''} ${loaded.username != null ? '@${loaded.username}' : ''}'.trim(),
-                              textAlign: TextAlign.start,
-                              style: const TextStyle(color: Colors.white70),
-                            ),
-                          ],
-                          const SizedBox(height: 14),
-                          Row(
+                          Stack(
                             children: <Widget>[
-                              Expanded(
-                                child: FilledButton(
-                                  onPressed: () {},
-                                  child: Text(l10n.start_prayer_btn),
-                                ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.notifications_none_rounded, size: 28),
+                                color: AppColors.navyMid,
                               ),
-                              const SizedBox(width: 8),
-                              IconButton.filled(
-                                onPressed: () async {
-                                  final HomeCubit cubit = context.read<HomeCubit>();
-                                  final ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
-                                  await Future<void>.delayed(const Duration(milliseconds: 50));
-                                  final bytes = await cubit.captureCard();
-                                  if (bytes == null) return;
-                                  final XFile file = XFile.fromData(
-                                    bytes,
-                                    mimeType: 'image/png',
-                                    name: 'nouri_card.png',
-                                  );
-                                  await Share.shareXFiles(<XFile>[file]);
-                                  if (loaded.isGuest &&
-                                      (loaded.displayName == null || loaded.displayName!.isEmpty) &&
-                                      (loaded.username == null || loaded.username!.isEmpty)) {
-                                    messenger.showSnackBar(
-                                      SnackBar(
-                                        content: Text(l10n.add_name_to_card_snackbar),
-                                        action: SnackBarAction(
-                                          label: l10n.openProfileAction,
-                                          onPressed: () {
-                                            showModalBottomSheet<void>(
-                                              context: context,
-                                              isScrollControlled: true,
-                                              builder: (_) => const ProfileBottomSheet(),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                                icon: const Icon(Icons.share),
-                                tooltip: l10n.share_card_btn,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          Align(
-                            alignment: AlignmentDirectional.centerStart,
-                            child: Text(l10n.todays_progress),
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: agpeyaHours.map((PrayerHourData hour) {
-                              final bool done = loaded.progressHours.contains(hour.hour);
-                              return Expanded(
-                                child: InkWell(
-                                  onTap: () async {
-                                    final String content =
-                                        await context.read<HomeCubit>().openPrayerContent(hour.hour);
-                                    if (!context.mounted) return;
-                                    await Navigator.of(context).push(
-                                      MaterialPageRoute<void>(
-                                        builder: (_) => PrayerReaderScreen(
-                                          hourName: hour.arabicName,
-                                          hour: hour.hour,
-                                          content: content,
-                                        ),
-                                      ),
-                                    );
-                                    if (!context.mounted) return;
-                                    await context.read<HomeCubit>().load();
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        width: 24,
-                                        height: 24,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: done ? Colors.amber : Colors.transparent,
-                                          border: Border.all(color: done ? Colors.amber : Colors.white70),
-                                        ),
-                                        child: done
-                                            ? const Icon(Icons.check, size: 14, color: Colors.white)
-                                            : null,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text('${hour.hour}', style: const TextStyle(fontSize: 11, color: Colors.white)),
-                                    ],
+                              Positioned(
+                                top: 10,
+                                right: 10,
+                                child: Container(
+                                  width: 8,
+                                  height: 8,
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.copticRed,
+                                    shape: BoxShape.circle,
                                   ),
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              _statChip('🔥', '${loaded.stats.streak}', l10n.your_streak),
-                              _statChip('🏆', '#${loaded.stats.rank}', l10n.weekly_rank),
-                              _statChip('✨', '${loaded.stats.pointsToday}', l10n.points_today),
+                              ),
                             ],
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onLongPress: () => context.push('/design-preview'),
+                              child: Text(
+                                l10n.nameBranding,
+                                textAlign: TextAlign.center,
+                                style: AppTextStyles.heading.copyWith(
+                                  fontSize: 24,
+                                  color: AppColors.primaryGoldDark,
+                                ),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            borderRadius: BorderRadius.circular(30),
+                            onTap: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (_) => const ProfileBottomSheet(),
+                              );
+                            },
+                            child: CircleAvatar(
+                              radius: 24,
+                              backgroundColor: Colors.white,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: AppColors.primaryGoldDark, width: 2),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    ((loaded.displayName ?? 'ن').trim().isNotEmpty
+                                            ? (loaded.displayName ?? 'ن').trim().characters.first
+                                            : 'ن')
+                                        .toUpperCase(),
+                                    style: AppTextStyles.arabicBody.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primaryGoldDark,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: <Widget>[
+                          const Expanded(child: Divider(color: AppColors.textMuted)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              loaded.copticDate,
+                              style: const TextStyle(fontFamily: 'Inter', fontSize: 12, color: AppColors.textMuted),
+                            ),
+                          ),
+                          const Icon(Icons.add, size: 14, color: AppColors.textMuted),
+                          const Expanded(child: Divider(color: AppColors.textMuted)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: RepaintBoundary(
+                        key: context.read<HomeCubit>().cardKey,
+                        child: Container(
+                          constraints: const BoxConstraints(minHeight: 220),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: <Color>[AppColors.backgroundNavy, AppColors.navyMid, Color(0xFF8B6914)],
+                            ),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: AppColors.primaryGoldDark.withValues(alpha: 0.3),
+                                blurRadius: 24,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Text(
+                                loaded.cardCoptic,
+                                textAlign: TextAlign.center,
+                                style: AppTextStyles.coptic.copyWith(fontSize: 14, color: AppColors.copticRed),
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                loaded.cardArabic,
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyles.arabicBody.copyWith(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                loaded.cardEnglish,
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyles.heading.copyWith(
+                                  fontSize: 13,
+                                  color: AppColors.goldSoft,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      border: Border.all(color: Colors.white70),
+                                    ),
+                                    child: const Text(
+                                      '✝ نوري',
+                                      style: TextStyle(color: Colors.white, fontFamily: 'Cairo'),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  OutlinedButton(
+                                    onPressed: () async {
+                                      final HomeCubit cubit = context.read<HomeCubit>();
+                                      final bytes = await cubit.captureCard();
+                                      if (bytes == null) return;
+                                      final XFile file = XFile.fromData(
+                                        bytes,
+                                        mimeType: 'image/png',
+                                        name: 'nouri_card.png',
+                                      );
+                                      await Share.shareXFiles(<XFile>[file]);
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      side: const BorderSide(color: Colors.white),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                                    ),
+                                    child: const Icon(Icons.share, color: Colors.white, size: 18),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  FilledButton(
+                                    onPressed: () {},
+                                    style: FilledButton.styleFrom(
+                                      backgroundColor: AppColors.primaryGoldDark,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                                    ),
+                                    child: Text(l10n.start_prayer_btn),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: <Widget>[
+                          const Text(
+                            'عرض الكل',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              color: AppColors.primaryGoldDark,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            l10n.todays_progress,
+                            style: AppTextStyles.arabicBody.copyWith(fontWeight: FontWeight.bold, fontSize: 19),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                      child: Row(
+                        children: agpeyaHours.map((PrayerHourData hour) {
+                          final bool done = loaded.progressHours.contains(hour.hour);
+                          return Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                final List<String> content = await context.read<HomeCubit>().openPrayerContent(hour.hour);
+                                if (!context.mounted) return;
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (_) => PrayerReaderScreen(
+                                      hourName: hour.arabicName,
+                                      hour: hour.hour,
+                                      content: content,
+                                    ),
+                                  ),
+                                );
+                                if (!context.mounted) return;
+                                await context.read<HomeCubit>().load();
+                              },
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    width: 44,
+                                    height: 44,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: done ? AppColors.primaryGoldDark : Colors.transparent,
+                                      border: Border.all(
+                                        color: done ? AppColors.primaryGoldDark : AppColors.textMuted,
+                                      ),
+                                      boxShadow: done
+                                          ? <BoxShadow>[
+                                              BoxShadow(
+                                                color: AppColors.primaryGoldDark.withValues(alpha: 0.35),
+                                                blurRadius: 10,
+                                              ),
+                                            ]
+                                          : null,
+                                    ),
+                                    child: Icon(
+                                      done ? Icons.check : Icons.circle_outlined,
+                                      color: done ? Colors.white : AppColors.textMuted,
+                                      size: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(_shortLabel(hour.hour),
+                                      style: const TextStyle(fontFamily: 'Cairo', fontSize: 11, color: AppColors.textSecondary)),
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 16, 12, 0),
+                      child: Row(
+                        children: <Widget>[
+                          _statChip('🔥', '${loaded.stats.streak}', l10n.your_streak),
+                          _statChip('🏆', '#${loaded.stats.rank}', l10n.weekly_rank),
+                          _statChip('✨', '${loaded.stats.pointsToday}', l10n.points_today),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           );
         },
       ),
@@ -230,22 +343,41 @@ class HomeScreen extends StatelessWidget {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           boxShadow: <BoxShadow>[
-            BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 8, offset: const Offset(0, 2)),
+            BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 12),
           ],
         ),
         child: Column(
           children: <Widget>[
-            Text(icon),
-            Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
-            Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 11)),
+            Text(icon, style: const TextStyle(fontSize: 20)),
+            Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: AppColors.navyMid)),
+            Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 11, color: AppColors.textMuted)),
           ],
         ),
       ),
     );
+  }
+
+  String _shortLabel(int hour) {
+    switch (hour) {
+      case 1:
+        return 'بكرة';
+      case 3:
+        return '٣';
+      case 6:
+        return '٦';
+      case 9:
+        return '٩';
+      case 11:
+        return 'غرب';
+      case 12:
+        return 'نوم';
+      default:
+        return 'منتصف';
+    }
   }
 }

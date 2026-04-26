@@ -1,3 +1,4 @@
+import 'package:agpeya/core/logger/app_logger.dart';
 import 'package:agpeya/core/di/injection.dart';
 import 'package:agpeya/core/notifications/local_notifications_service.dart';
 import 'package:agpeya/data/sources/remote/firebase_remote_source.dart';
@@ -26,12 +27,28 @@ class ProfileCubit extends Cubit<ProfileState> {
   ];
 
   Future<void> load() async {
+    AppLogger.cubit('ProfileCubit', 'ProfileLoading');
     emit(ProfileLoading());
     await _localNotificationsService.initialize();
-    emit(const ProfileLoaded('عبد المسيح', 540, true));
+    
+    final Map<String, dynamic> profile = await _firebaseRemoteSource.getCurrentProfile();
+    final String? uid = _firebaseRemoteSource.currentUid;
+    
+    int points = 0;
+    if (uid != null) {
+      final stats = await _firebaseRemoteSource.getUserStats(uid);
+      points = stats['points'] as int? ?? 0;
+    }
+
+    final String name = profile['name'] as String? ?? 'عبد المسيح';
+    final bool notifications = profile['notificationsEnabled'] as bool? ?? true;
+
+    AppLogger.cubit('ProfileCubit', 'ProfileLoaded');
+    emit(ProfileLoaded(name, points, notifications));
   }
 
   Future<void> toggleNotifications(bool enabled) async {
+    AppLogger.info('Toggling notifications', data: <String, dynamic>{'enabled': enabled});
     if (state is! ProfileLoaded) return;
     final ProfileLoaded current = state as ProfileLoaded;
     await _localNotificationsService.syncPrayerReminders(
@@ -43,6 +60,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       hourTimes: _defaultPrayerTimes,
     );
     await _firebaseRemoteSource.saveFcmToken();
+    AppLogger.cubit('ProfileCubit', 'ProfileLoaded (Notification update)', data: <String, dynamic>{'enabled': enabled});
     emit(ProfileLoaded(current.name, current.points, enabled));
   }
 }

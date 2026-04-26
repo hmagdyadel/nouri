@@ -1,0 +1,1082 @@
+{
+  "hours": [
+    {
+      "id": "prime",
+      "name": "Prime",
+      "englishName": "Morning Prayer (First Hour)",
+      "traditionalTime": "6:00 AM",
+      "introduction": "We pray the First Hour at sunrise, commemorating the Resurrection of our Lord Jesus Christ. At this hour, Christ rose from the dead and appeared to the women at the tomb.",
+      "opening": {
+        "inline": true,
+        "content": [
+          "In the Name of the Father, and the Son, and the Holy Spirit, one God. Amen.",
+          "Kyrie eleison. Lord have mercy, Lord have mercy, Lord bless us. Amen.",
+          "Glory be to the Father, and to the Son, and to the Holy Spirit, now and forever and unto the ages of ages. Amen."
+        ]
+      },
+      "thanksgiving": {
+        "title": "Thanksgiving Prayer",
+        "inline": false,
+        "content": [
+          "Let us give thanks to the beneficent and merciful God, the Father of our Lord, God and Savior, Jesus Christ, for He has covered us, helped us, guarded us, accepted us unto Him, spared us, supported us, and brought us to this hour. Let us also ask Him, the Lord our God, the Almighty, to guard us in all peace this holy day and all the days of our life.",
+          "O Master, Lord, God the Almighty, the Father of our Lord, God and Savior, Jesus Christ, we thank You for every condition, concerning every condition, and in every condition, for You have covered us, helped us, guarded us, accepted us unto You, spared us, supported us, and brought us to this hour.",
+          "Therefore, we ask and entreat Your goodness, O Lover of mankind, grant us to complete this holy day, and all the days of our life, in all peace with Your fear. All envy, all temptation, all the work of Satan, the counsel of wicked men and the rising up of enemies, hidden and manifest, take them away from us, and from all Your people, and from this holy place that is Yours. But those things which are good and profitable do provide for us; for it is You Who have given us the authority to tread on serpents and scorpions, and upon all the power of the enemy. And lead us not into temptation, but deliver us from evil, by the grace, compassion and love of mankind, of Your Only-Begotten Son, our Lord, God and Savior, Jesus Christ, through Whom the glory, the honor, the dominion, and the adoration are due unto You, with Him, and the Holy Spirit, the Life-Giver, Who is of one essence with You, now and at all times, and unto the ages of ages. Amen."
+        ]
+      },
+      "introductoryPsalm": {
+        "title": "Psalm 50",
+        "reference": "Psalm 50",
+        "verses": [
+          {
+            "text": "Have mercy upon me, O God, According to Your lovingkindness; According to the multitude of Your tender mercies, Blot out my transgressions.",
+            "num": 1
+          },
+          {
+            "text": "Wash me thoroughly from my iniquity, And cleanse me from my sin.",
+            "num": 2
+          },
+          {
+            "text": "For I acknowledge my transgressions, And my sin is always before me.",
+            "num": 3
+          },
+          {
+            "text": "Against You, You only, have I sinned, And done this evil in Your sight-- That You may be found just when You speak, And blameless when You judge.",
+            "num": 4
+          },
+          {
+            "text": "Behold, I was brought forth in iniquity, And in sin my mother conceived me.",
+            "num": 5
+          },
+          {
+            "text": "Behold, You desire truth in the inward parts, And in the hidden part You will make me to know wisdom.",
+            "num": 6
+          },
+          {
+            "text": "Purge me with hyssop, and I shall be clean; Wash me, and I shall be whiter than snow.",
+            "num": 7
+          },
+          {
+            "text": "Make hear joy and gladness, That the bones You have broken may rejoice.",
+            "num": 8
+          },
+          {
+            "text": "Hide Your face from my sins, And blot out all my iniquities.",
+            "num": 9
+          },
+          {
+            "text": "Create in me a clean heart, O God, And renew a steadfast spirit within me.",
+            "num": 10
+          },
+          {
+            "text": "Do not cast me away from Your presence, And do not take Your Holy Spirit from me.",
+            "num": 11
+          },
+          {
+            "text": "Restore to me the joy of Your salvation, And uphold me by Your generous Spirit.",
+            "num": 12
+          },
+          {
+            "text": "Then I will teach transgressors Your ways, And sinners shall be converted to You.",
+            "num": 13
+          },
+          {
+            "text": "Deliver me from the guilt of bloodshed, O God, The God of my salvation, And my tongue shall sing aloud of Your righteousness.",
+            "num": 14
+          },
+          {
+            "text": "O Lord, open my lips, And my mouth shall show forth Your praise.",
+            "num": 15
+          },
+          {
+            "text": "For You do not desire sacrifice, or else I would give it; You do not delight in burnt offering.",
+            "num": 16
+          },
+          {
+            "text": "The sacrifices of God are a broken spirit, A broken and a contrite heart-- These, O God, You will not despise.",
+            "num": 17
+          },
+          {
+            "text": "Do good in Your good pleasure to Zion; Build the walls of Jerusalem.",
+            "num": 18
+          },
+          {
+            "text": "Then You shall be pleased with the sacrifices of righteousness, With burnt offering and whole burnt offering; Then they shall offer bulls on Your altar.",
+            "num": 19
+          }
+        ]
+      },
+      "psalmsIntro": "From the Psalms of our father David the prophet and king, may his blessings be upon us all. Amen.",
+      "psalms": [
+        {
+          "title": "Psalm 1",
+          "reference": "Psalm 1",
+          "verses": [
+            {
+              "text": "Blessed is the man Who walks not in the counsel of the ungodly, Nor stands in the path of sinners, Nor sits in the seat of the scornful;",
+              "num": 1
+            },
+            {
+              "text": "But his delight is in the law of the LORD, And in His law he meditates day and night.",
+              "num": 2
+            },
+            {
+              "text": "He shall be like a tree Planted by the rivers of water, That brings forth its fruit in its season, Whose leaf also shall not wither; And whatever he does shall prosper.",
+              "num": 3
+            },
+            {
+              "text": "The ungodly are not so, But are like the chaff which the wind drives away.",
+              "num": 4
+            },
+            {
+              "text": "Therefore the ungodly shall not stand in the judgment, Nor sinners in the congregation of the righteous.",
+              "num": 5
+            },
+            {
+              "text": "For the LORD knows the way of the righteous, But the way of the ungodly shall perish.",
+              "num": 6
+            }
+          ]
+        },
+        {
+          "title": "Psalm 2",
+          "reference": "Psalm 2",
+          "verses": [
+            {
+              "text": "Why do the nations rage, And the people plot a vain thing?",
+              "num": 1
+            },
+            {
+              "text": "The kings of the earth set themselves, And the rulers take counsel together, Against the LORD and against His Anointed, saying,",
+              "num": 2
+            },
+            {
+              "text": "\"Let us break Their bonds in pieces And cast away Their cords from us.\"",
+              "num": 3
+            },
+            {
+              "text": "He who sits in the heavens shall laugh; The LORD shall hold them in derision.",
+              "num": 4
+            },
+            {
+              "text": "Then He shall speak to them in His wrath, And distress them in His deep displeasure:",
+              "num": 5
+            },
+            {
+              "text": "\"Yet I have set My King On My holy hill of Zion.\"",
+              "num": 6
+            },
+            {
+              "text": "\"I will declare the decree: The LORD has said to Me, \"You are My Son, Today I have begotten You.",
+              "num": 7
+            },
+            {
+              "text": "Ask of Me, and I will give You The nations for Your inheritance, And the ends of the earth for Your possession.",
+              "num": 8
+            },
+            {
+              "text": "You shall break them with a rod of iron; You shall dash them to pieces like a potter's vessel.\"'",
+              "num": 9
+            },
+            {
+              "text": "Now therefore, be wise, O kings; Be instructed, you judges of the earth.",
+              "num": 10
+            },
+            {
+              "text": "Serve the LORD with fear, And rejoice with trembling.",
+              "num": 11
+            },
+            {
+              "text": "Kiss the Son, lest He be angry, And you perish in the way, When His wrath is kindled but a little. Blessed are all those who put their trust in Him.",
+              "num": 12
+            }
+          ]
+        },
+        {
+          "title": "Psalm 3",
+          "reference": "Psalm 3",
+          "verses": [
+            {
+              "text": "LORD, how they have increased who trouble me! Many are they who rise up against me.",
+              "num": 1
+            },
+            {
+              "text": "Many are they who say of me, \"There is no help for him in God.\"Selah",
+              "num": 2
+            },
+            {
+              "text": "But You, O LORD, are a shield for me, My glory and the One who lifts up my head.",
+              "num": 3
+            },
+            {
+              "text": "I cried to the LORD with my voice, And He heard me from His holy hill.Selah",
+              "num": 4
+            },
+            {
+              "text": "I lay down and slept; I awoke, for the LORD sustained me.",
+              "num": 5
+            },
+            {
+              "text": "I will not be afraid of ten thousands of people Who have set themselves against me all around.",
+              "num": 6
+            },
+            {
+              "text": "Arise, O LORD; Save me, O my God! For You have struck all my enemies on the cheekbone; You have broken the teeth of the ungodly.",
+              "num": 7
+            },
+            {
+              "text": "Salvation belongs to the LORD. Your blessing is upon Your people.Selah",
+              "num": 8
+            }
+          ]
+        },
+        {
+          "title": "Psalm 4",
+          "reference": "Psalm 4",
+          "verses": [
+            {
+              "text": "Hear me when I call, O God of my righteousness! You have relieved me in my distress; Have mercy on me, and hear my prayer.",
+              "num": 1
+            },
+            {
+              "text": "How long, O you sons of men, Will you turn my glory to shame? How long will you love worthlessness And seek falsehood?Selah",
+              "num": 2
+            },
+            {
+              "text": "But know that the LORD has set apart for Himself him who is godly; The LORD will hear when I call to Him.",
+              "num": 3
+            },
+            {
+              "text": "Be angry, and do not sin. Meditate within your heart on your bed, and be still.Selah",
+              "num": 4
+            },
+            {
+              "text": "Offer the sacrifices of righteousness, And put your trust in the LORD.",
+              "num": 5
+            },
+            {
+              "text": "There are many who say, \"Who will show us any good?\" LORD, lift up the light of Your countenance upon us.",
+              "num": 6
+            },
+            {
+              "text": "You have put gladness in my heart, More than in the season that their grain and wine increased.",
+              "num": 7
+            },
+            {
+              "text": "I will both lie down in peace, and sleep; For You alone, O LORD, make me dwell in safety.",
+              "num": 8
+            }
+          ]
+        },
+        {
+          "title": "Psalm 5",
+          "reference": "Psalm 5",
+          "verses": [
+            {
+              "text": "Give ear to my words, O LORD, Consider my meditation.",
+              "num": 1
+            },
+            {
+              "text": "Give heed to the voice of my cry, My King and my God, For to You I will pray.",
+              "num": 2
+            },
+            {
+              "text": "My voice You shall hear in the morning, O LORD; In the morning I will direct it to You, And I will look up.",
+              "num": 3
+            },
+            {
+              "text": "For You are not a God who takes pleasure in wickedness, Nor shall evil dwell with You.",
+              "num": 4
+            },
+            {
+              "text": "The boastful shall not stand in Your sight; You hate all workers of iniquity.",
+              "num": 5
+            },
+            {
+              "text": "You shall destroy those who speak falsehood; The LORD abhors the bloodthirsty and deceitful man.",
+              "num": 6
+            },
+            {
+              "text": "But as for me, I will come into Your house in the multitude of Your mercy; In fear of You I will worship toward Your holy temple.",
+              "num": 7
+            },
+            {
+              "text": "Lead me, O LORD, in Your righteousness because of my enemies; Make Your way straight before my face.",
+              "num": 8
+            },
+            {
+              "text": "For there is no faithfulness in their mouth; Their inward part is destruction; Their throat is an open tomb; They flatter with their tongue.",
+              "num": 9
+            },
+            {
+              "text": "Pronounce them guilty, O God! Let them fall by their own counsels; Cast them out in the multitude of their transgressions, For they have rebelled against You.",
+              "num": 10
+            },
+            {
+              "text": "But let all those rejoice who put their trust in You; Let them ever shout for joy, because You defend them; Let those also who love Your name Be joyful in You.",
+              "num": 11
+            },
+            {
+              "text": "For You, O LORD, will bless the righteousness; With favor You will surround him as with a shield.",
+              "num": 12
+            }
+          ]
+        },
+        {
+          "title": "Psalm 6",
+          "reference": "Psalm 6",
+          "verses": [
+            {
+              "text": "O LORD, do not rebuke me in Your anger, Nor chasten me in Your hot displeasure.",
+              "num": 1
+            },
+            {
+              "text": "Have mercy on me, O LORD, for I am weak; O LORD, heal me, for my bones are troubled.",
+              "num": 2
+            },
+            {
+              "text": "My soul also is greatly troubled; But You, O LORD--how long?",
+              "num": 3
+            },
+            {
+              "text": "Return, O LORD, deliver me! Oh, save me for Your mercies' sake!",
+              "num": 4
+            },
+            {
+              "text": "For in death there is no remembrance of You; In the grave who will give You thanks?",
+              "num": 5
+            },
+            {
+              "text": "I am weary with my groaning; All night I make my bed swim; I drench my couch with my tears.",
+              "num": 6
+            },
+            {
+              "text": "My eye wastes away because of grief; It grows old because of all my enemies.",
+              "num": 7
+            },
+            {
+              "text": "Depart from me, all you workers of iniquity; For the LORD has heard the voice of my weeping.",
+              "num": 8
+            },
+            {
+              "text": "The LORD has heard my supplication; The LORD will receive my prayer.",
+              "num": 9
+            },
+            {
+              "text": "Let all my enemies be ashamed and greatly troubled; Let them turn back and be ashamed suddenly.",
+              "num": 10
+            }
+          ]
+        },
+        {
+          "title": "Psalm 8",
+          "reference": "Psalm 8",
+          "verses": [
+            {
+              "text": "O LORD, our Lord, How excellent is Your name in all the earth, Who have set Your glory above the heavens!",
+              "num": 1
+            },
+            {
+              "text": "Out of the mouth of babes and nursing infants You have ordained strength, Because of Your enemies, That You may silence the enemy and the avenger.",
+              "num": 2
+            },
+            {
+              "text": "When I consider Your heavens, the work of Your fingers, The moon and the stars, which You have ordained,",
+              "num": 3
+            },
+            {
+              "text": "What is man that You are mindful of him, And the son of man that You visit him?",
+              "num": 4
+            },
+            {
+              "text": "For You have made him a little lower than the angels, And You have crowned him with glory and honor.",
+              "num": 5
+            },
+            {
+              "text": "You have made him to have dominion over the works of Your hands; You have put all things under his feet,",
+              "num": 6
+            },
+            {
+              "text": "All sheep and oxen-- Even the beasts of the field,",
+              "num": 7
+            },
+            {
+              "text": "The birds of the air, And the fish of the sea That pass through the paths of the seas.",
+              "num": 8
+            },
+            {
+              "text": "O LORD, our Lord, How excellent is Your name in all the earth!",
+              "num": 9
+            }
+          ]
+        },
+        {
+          "title": "Psalm 11",
+          "reference": "Psalm 11",
+          "verses": [
+            {
+              "text": "Help, LORD, for the godly man ceases! For the faithful disappear from among the sons of men.",
+              "num": 1
+            },
+            {
+              "text": "They speak idly everyone with his neighbor; With flattering lips and a double heart they speak.",
+              "num": 2
+            },
+            {
+              "text": "May the LORD cut off all flattering lips, And the tongue that speaks proud things,",
+              "num": 3
+            },
+            {
+              "text": "Who have said, \"With our tongue we will prevail; Our lips are our own; Who is lord over us?\"",
+              "num": 4
+            },
+            {
+              "text": "\"For the oppression of the poor, for the sighing of the needy, Now I will arise,\" says the LORD; \"I will set him in the safety for which he yearns.\"",
+              "num": 5
+            },
+            {
+              "text": "The words of the LORD are pure words, Like silver tried in a furnace of earth, Purified seven times.",
+              "num": 6
+            },
+            {
+              "text": "You shall keep them, O LORD, You shall preserve them from this generation forever.",
+              "num": 7
+            },
+            {
+              "text": "The wicked prowl on every side, When vileness is exalted among the sons of men.",
+              "num": 8
+            }
+          ]
+        },
+        {
+          "title": "Psalm 12",
+          "reference": "Psalm 12",
+          "verses": [
+            {
+              "text": "How long, O LORD? Will You forget me forever? How long will You hide Your face from me?",
+              "num": 1
+            },
+            {
+              "text": "How long shall I take counsel in my soul, Having sorrow in my heart daily? How long will my enemy be exalted over me?",
+              "num": 2
+            },
+            {
+              "text": "Consider and hear me, O LORD my God; Enlighten my eyes, Lest I sleep the sleep of death;",
+              "num": 3
+            },
+            {
+              "text": "Lest my enemy say, \"I have prevailed against him\"; Lest those who trouble me rejoice when I am moved.",
+              "num": 4
+            },
+            {
+              "text": "But I have trusted in Your mercy; My heart shall rejoice in Your salvation.",
+              "num": 5
+            },
+            {
+              "text": "I will sing to the LORD, Because He has dealt bountifully with me.",
+              "num": 6
+            }
+          ]
+        },
+        {
+          "title": "Psalm 14",
+          "reference": "Psalm 14",
+          "verses": [
+            {
+              "text": "LORD, who may abide in Your tabernacle? Who may dwell in Your holy hill?",
+              "num": 1
+            },
+            {
+              "text": "He who walks uprightly, And works righteousness, And speaks the truth in his heart;",
+              "num": 2
+            },
+            {
+              "text": "He who does not backbite with his tongue, Nor does evil to his neighbor, Nor does he take up a reproach against his friend;",
+              "num": 3
+            },
+            {
+              "text": "In whose eyes a vile person is despised, But he honors those who fear the LORD; He who swears to his own hurt and does not change;",
+              "num": 4
+            },
+            {
+              "text": "He who does not put out his money at usury, Nor does he take a bribe against the innocent. He who does these things shall never be moved.",
+              "num": 5
+            }
+          ]
+        },
+        {
+          "title": "Psalm 15",
+          "reference": "Psalm 15",
+          "verses": [
+            {
+              "text": "Preserve me, O God, for in You I put my trust.",
+              "num": 1
+            },
+            {
+              "text": "O my soul, you have said to the LORD, \"You are my Lord, My goodness is nothing apart from You.\"",
+              "num": 2
+            },
+            {
+              "text": "As for the saints who are on the earth, \"They are the excellent ones, in whom is all my delight.\"",
+              "num": 3
+            },
+            {
+              "text": "Their sorrows shall be multiplied who hasten after another god; Their drink offerings of blood I will not offer, Nor take up their names on my lips.",
+              "num": 4
+            },
+            {
+              "text": "O LORD, You are the portion of my inheritance and my cup; You maintain my lot.",
+              "num": 5
+            },
+            {
+              "text": "The lines have fallen to me in pleasant places; Yes, I have a good inheritance.",
+              "num": 6
+            },
+            {
+              "text": "I will bless the LORD who has given me counsel; My heart also instructs me in the night seasons.",
+              "num": 7
+            },
+            {
+              "text": "I have set the LORD always before me; Because He is at my right hand I shall not be moved.",
+              "num": 8
+            },
+            {
+              "text": "Therefore my heart is glad, and my glory rejoices; My flesh also will rest in hope.",
+              "num": 9
+            },
+            {
+              "text": "For You will not leave my soul in Sheol, Nor will You allow Your Holy One to see corruption.",
+              "num": 10
+            },
+            {
+              "text": "You will show me the path of life; In Your presence is fullness of joy; At Your right hand are pleasures forevermore.",
+              "num": 11
+            }
+          ]
+        },
+        {
+          "title": "Psalm 18",
+          "reference": "Psalm 18",
+          "verses": [
+            {
+              "text": "The heavens declare the glory of God; And the firmament shows His handiwork.",
+              "num": 1
+            },
+            {
+              "text": "Day unto day utters speech, And night unto night reveals knowledge.",
+              "num": 2
+            },
+            {
+              "text": "There is no speech nor language Where their voice is not heard.",
+              "num": 3
+            },
+            {
+              "text": "Their line has gone out through all the earth, And their words to the end of the world. In them He has set a tabernacle for the sun,",
+              "num": 4
+            },
+            {
+              "text": "Which is like a bridegroom coming out of his chamber, And rejoices like a strong man to run its race.",
+              "num": 5
+            },
+            {
+              "text": "Its rising is from one end of heaven, And its circuit to the other end; And there is nothing hidden from its heat.",
+              "num": 6
+            },
+            {
+              "text": "The law of the LORD is perfect, converting the soul; The testimony of the LORD is sure, making wise the simple;",
+              "num": 7
+            },
+            {
+              "text": "The statutes of the LORD are right, rejoicing the heart; The commandment of the LORD is pure, enlightening the eyes;",
+              "num": 8
+            },
+            {
+              "text": "The fear of the LORD is clean, enduring forever; The judgments of the LORD are true and righteous altogether.",
+              "num": 9
+            },
+            {
+              "text": "More to be desired are they than gold, Yea, than much fine gold; Sweeter also than honey and the honeycomb.",
+              "num": 10
+            },
+            {
+              "text": "Moreover by them Your servant is warned, And in keeping them there is great reward.",
+              "num": 11
+            },
+            {
+              "text": "Who can understand his errors? Cleanse me from secret faults.",
+              "num": 12
+            },
+            {
+              "text": "Keep back Your servant also from presumptuous sins; Let them not have dominion over me. Then I shall be blameless, And I shall be innocent of great transgression.",
+              "num": 13
+            },
+            {
+              "text": "Let the words of my mouth and the meditation of my heart Be acceptable in Your sight, O LORD, my strength and my Redeemer.",
+              "num": 14
+            }
+          ]
+        },
+        {
+          "title": "Psalm 24",
+          "reference": "Psalm 24",
+          "verses": [
+            {
+              "text": "To You, O LORD, I lift up my soul.",
+              "num": 1
+            },
+            {
+              "text": "O my God, I trust in You; Let me not be ashamed; Let not my enemies triumph over me.",
+              "num": 2
+            },
+            {
+              "text": "Indeed, let no one who waits on You be ashamed; Let those be ashamed who deal treacherously without cause.",
+              "num": 3
+            },
+            {
+              "text": "Show me Your ways, O LORD; Teach me Your paths.",
+              "num": 4
+            },
+            {
+              "text": "Lead me in Your truth and teach me, For You are the God of my salvation; On You I wait all the day.",
+              "num": 5
+            },
+            {
+              "text": "Remember, O LORD, Your tender mercies and Your lovingkindnesses, For they are from of old.",
+              "num": 6
+            },
+            {
+              "text": "Do not remember the sins of my youth, nor my transgressions; According to Your mercy remember me, For Your goodness' sake, O LORD.",
+              "num": 7
+            },
+            {
+              "text": "Good and upright is the LORD; Therefore He teaches sinners in the way.",
+              "num": 8
+            },
+            {
+              "text": "The humble He guides in justice, And the humble He teaches His way.",
+              "num": 9
+            },
+            {
+              "text": "All the paths of the LORD are mercy and truth, To such as keep His covenant and His testimonies.",
+              "num": 10
+            },
+            {
+              "text": "For Your name's sake, O LORD, Pardon my iniquity, for it is great.",
+              "num": 11
+            },
+            {
+              "text": "Who is the man that fears the LORD? Him shall He teach in the way He chooses.",
+              "num": 12
+            },
+            {
+              "text": "He himself shall dwell in prosperity, And his descendants shall inherit the earth.",
+              "num": 13
+            },
+            {
+              "text": "The secret of the LORD is with those who fear Him, And He will show them His covenant.",
+              "num": 14
+            },
+            {
+              "text": "My eyes are ever toward the LORD, For He shall pluck my feet out of the net.",
+              "num": 15
+            },
+            {
+              "text": "Turn Yourself to me, and have mercy on me, For I am desolate and afflicted.",
+              "num": 16
+            },
+            {
+              "text": "The troubles of my heart have enlarged; Bring me out of my distresses!",
+              "num": 17
+            },
+            {
+              "text": "Look on my affliction and my pain, And forgive all my sins.",
+              "num": 18
+            },
+            {
+              "text": "Consider my enemies, for they are many; And they hate me with cruel hatred.",
+              "num": 19
+            },
+            {
+              "text": "Keep my soul, and deliver me; Let me not be ashamed, for I put my trust in You.",
+              "num": 20
+            },
+            {
+              "text": "Let integrity and uprightness preserve me, For I wait for You.",
+              "num": 21
+            },
+            {
+              "text": "Redeem Israel, O God, Out of all their troubles!",
+              "num": 22
+            }
+          ]
+        },
+        {
+          "title": "Psalm 26",
+          "reference": "Psalm 26",
+          "verses": [
+            {
+              "text": "The LORD is my light and my salvation; Whom shall I fear? The LORD is the strength of my life; Of whom shall I be afraid?",
+              "num": 1
+            },
+            {
+              "text": "When the wicked came against me To eat up my flesh, My enemies and foes, They stumbled and fell.",
+              "num": 2
+            },
+            {
+              "text": "Though an army may encamp against me, My heart shall not fear; Though war may rise against me, In this I will be confident.",
+              "num": 3
+            },
+            {
+              "text": "One thing I have desired of the LORD, That will I seek: That I may dwell in the house of the LORD All the days of my life, To behold the beauty of the LORD, And to inquire in His temple.",
+              "num": 4
+            },
+            {
+              "text": "For in the time of trouble He shall hide me in His pavilion; In the secret place of His tabernacle He shall hide me; He shall set me high upon a rock.",
+              "num": 5
+            },
+            {
+              "text": "And now my head shall be lifted up above my enemies all around me; Therefore I will offer sacrifices of joy in His tabernacle; I will sing, yes, I will sing praises to the LORD.",
+              "num": 6
+            },
+            {
+              "text": "Hear, O LORD, when I cry with my voice! Have mercy also upon me, and answer me.",
+              "num": 7
+            },
+            {
+              "text": "When You said, \"Seek My face,\" My heart said to You, \"Your face, LORD, I will seek.\"",
+              "num": 8
+            },
+            {
+              "text": "Do not hide Your face from me; Do not turn Your servant away in anger; You have been my help; Do not leave me nor forsake me, O God of my salvation.",
+              "num": 9
+            },
+            {
+              "text": "When my father and my mother forsake me, Then the LORD will take care of me.",
+              "num": 10
+            },
+            {
+              "text": "Teach me Your way, O LORD, And lead me in a smooth path, because of my enemies.",
+              "num": 11
+            },
+            {
+              "text": "Do not deliver me to the will of my adversaries; For false witnesses have risen against me, And such as breathe out violence.",
+              "num": 12
+            },
+            {
+              "text": "I would have lost heart, unless I had believed That I would see the goodness of the LORD In the land of the living.",
+              "num": 13
+            },
+            {
+              "text": "Wait on the LORD; Be of good courage, And He shall strengthen your heart; Wait, I say, on the LORD!",
+              "num": 14
+            }
+          ]
+        },
+        {
+          "title": "Psalm 62",
+          "reference": "Psalm 62",
+          "verses": [
+            {
+              "text": "O God, You are my God; Early will I seek You; My soul thirsts for You; My flesh longs for You In a dry and thirsty land Where there is no water.",
+              "num": 1
+            },
+            {
+              "text": "So I have looked for You in the sanctuary, To see Your power and Your glory.",
+              "num": 2
+            },
+            {
+              "text": "Because Your lovingkindness is better than life, My lips shall praise You.",
+              "num": 3
+            },
+            {
+              "text": "Thus I will bless You while I live; I will lift up my hands in Your name.",
+              "num": 4
+            },
+            {
+              "text": "My soul shall be satisfied as with marrow and fatness, And my mouth shall praise You with joyful lips.",
+              "num": 5
+            },
+            {
+              "text": "When I remember You on my bed, I meditate on You in the night watches.",
+              "num": 6
+            },
+            {
+              "text": "Because You have been my help, Therefore in the shadow of Your wings I will rejoice.",
+              "num": 7
+            },
+            {
+              "text": "My soul follows close behind You; Your right hand upholds me.",
+              "num": 8
+            },
+            {
+              "text": "But those who seek my life, to destroy it, Shall go into the lower parts of the earth.",
+              "num": 9
+            },
+            {
+              "text": "They shall fall by the sword; They shall be a portion for jackals.",
+              "num": 10
+            },
+            {
+              "text": "But the king shall rejoice in God; Everyone who swears by Him shall glory; But the mouth of those who speak lies shall be stopped.",
+              "num": 11
+            }
+          ]
+        },
+        {
+          "title": "Psalm 66",
+          "reference": "Psalm 66",
+          "verses": [
+            {
+              "text": "God be merciful to us and bless us, And cause His face to shine upon us,Selah",
+              "num": 1
+            },
+            {
+              "text": "That Your way may be known on earth, Your salvation among all nations.",
+              "num": 2
+            },
+            {
+              "text": "Let the peoples praise You, O God; Let all the peoples praise You.",
+              "num": 3
+            },
+            {
+              "text": "Oh, let the nations be glad and sing for joy! For You shall judge the people righteously, And govern the nations on earth.Selah",
+              "num": 4
+            },
+            {
+              "text": "Let the peoples praise You, O God; Let all the peoples praise You.",
+              "num": 5
+            },
+            {
+              "text": "Then the earth shall yield her increase; God, our own God, shall bless us.",
+              "num": 6
+            },
+            {
+              "text": "God shall bless us, And all the ends of the earth shall fear Him.",
+              "num": 7
+            }
+          ]
+        },
+        {
+          "title": "Psalm 69",
+          "reference": "Psalm 69",
+          "verses": [
+            {
+              "text": "Make haste, O God, to deliver me! Make haste to help me, O LORD!",
+              "num": 1
+            },
+            {
+              "text": "Let them be ashamed and confounded Who seek my life; Let them be turned back and confused Who desire my hurt.",
+              "num": 2
+            },
+            {
+              "text": "Let them be turned back because of their shame, Who say, \"Aha, aha!\"",
+              "num": 3
+            },
+            {
+              "text": "Let all those who seek You rejoice and be glad in You; And let those who love Your salvation say continually, \"Let God be magnified!\"",
+              "num": 4
+            },
+            {
+              "text": "But I am poor and needy; Make haste to me, O God! You are my help and my deliverer; O LORD, do not delay.",
+              "num": 5
+            }
+          ]
+        },
+        {
+          "title": "Psalm 112",
+          "reference": "Psalm 112",
+          "verses": [
+            {
+              "text": "Praise the LORD! Praise, O servants of the LORD, Praise the name of the LORD!",
+              "num": 1
+            },
+            {
+              "text": "Blessed be the name of the LORD From this time forth and forevermore!",
+              "num": 2
+            },
+            {
+              "text": "From the rising of the sun to its going down The LORD's name is to be praised.",
+              "num": 3
+            },
+            {
+              "text": "The LORD is high above all nations, His glory above the heavens.",
+              "num": 4
+            },
+            {
+              "text": "Who is like the LORD our God, Who dwells on high,",
+              "num": 5
+            },
+            {
+              "text": "Who humbles Himself to behold The things that are in the heavens and in the earth?",
+              "num": 6
+            },
+            {
+              "text": "He raises the poor out of the dust, And lifts the needy out of the ash heap,",
+              "num": 7
+            },
+            {
+              "text": "That He may seat him with princes-- With the princes of His people.",
+              "num": 8
+            },
+            {
+              "text": "He grants the barren woman a home, Like a joyful mother of children. Praise the LORD!",
+              "num": 9
+            }
+          ]
+        },
+        {
+          "title": "Psalm 142",
+          "reference": "Psalm 142",
+          "verses": [
+            {
+              "text": "Hear my prayer, O LORD, Give ear to my supplications! In Your faithfulness answer me, And in Your righteousness.",
+              "num": 1
+            },
+            {
+              "text": "Do not enter into judgment with Your servant, For in Your sight no one living is righteous.",
+              "num": 2
+            },
+            {
+              "text": "For the enemy has persecuted my soul; He has crushed my life to the ground; He has made me dwell in darkness, Like those who have long been dead.",
+              "num": 3
+            },
+            {
+              "text": "Therefore my spirit is overwhelmed within me; My heart within me is distressed.",
+              "num": 4
+            },
+            {
+              "text": "I remember the days of old; I meditate on all Your works; I muse on the work of Your hands.",
+              "num": 5
+            },
+            {
+              "text": "I spread out my hands to You; My soul longs for You like a thirsty land.Selah",
+              "num": 6
+            },
+            {
+              "text": "Answer me speedily, O LORD; My spirit fails! Do not hide Your face from me, Lest I be like those who go down into the pit.",
+              "num": 10
+            },
+            {
+              "text": "Cause me to hear Your lovingkindness in the morning, For in You do I trust; Cause me to know the way in which I should walk, For I lift up my soul to You.",
+              "num": 11
+            },
+            {
+              "text": "Deliver me, O LORD, from my enemies; In You I take shelter.",
+              "num": 12
+            },
+            {
+              "text": "Teach me to do Your will, For You are my God; Your Spirit is good. Lead me in the land of uprightness.",
+              "num": 13
+            },
+            {
+              "text": "Revive me, O LORD, for Your name's sake! For Your righteousness' sake bring my soul out of trouble.",
+              "num": 14
+            },
+            {
+              "text": "In Your mercy cut off my enemies, And destroy all those who afflict my soul; For I am Your servant.",
+              "num": 15
+            }
+          ]
+        }
+      ],
+      "gospel": {
+        "reference": "John 1:1-17",
+        "rubric": "Glory to You, O our God. Holy, holy, holy. A psalm of David. A reading from the Gospel according to our teacher Saint John the Evangelist. May his blessings be with us all. Amen.",
+        "verses": [
+          {
+            "text": "In the beginning was the Word, and the Word was with God, and the Word was God.",
+            "num": 1
+          },
+          {
+            "text": "He was in the beginning with God.",
+            "num": 2
+          },
+          {
+            "text": "All things were made through Him, and without Him nothing was made that was made.",
+            "num": 3
+          },
+          {
+            "text": "In Him was life, and the life was the light of men.",
+            "num": 4
+          },
+          {
+            "text": "And the light shines in the darkness, and the darkness did not comprehend it.",
+            "num": 5
+          },
+          {
+            "text": "There was a man sent from God, whose name was John.",
+            "num": 6
+          },
+          {
+            "text": "This man came for a witness, to bear witness of the Light, that all through him might believe.",
+            "num": 7
+          },
+          {
+            "text": "He was not that Light, but was sent to bear witness of that Light.",
+            "num": 8
+          },
+          {
+            "text": "That was the true Light which gives light to every man coming into the world.",
+            "num": 9
+          },
+          {
+            "text": "He was in the world, and the world was made through Him, and the world did not know Him.",
+            "num": 10
+          },
+          {
+            "text": "He came to His own, and His own did not receive Him.",
+            "num": 11
+          },
+          {
+            "text": "But as many as received Him, to them He gave the right to become children of God, to those who believe in His name:",
+            "num": 12
+          },
+          {
+            "text": "who were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.",
+            "num": 13
+          },
+          {
+            "text": "And the Word became flesh and dwelt among us, and we beheld His glory, the glory as of the only begotten of the Father, full of grace and truth.",
+            "num": 14
+          },
+          {
+            "text": "John bore witness of Him and cried out, saying, \"This was He of whom I said, \"He who comes after me is preferred before me, for He was before me.\"'",
+            "num": 15
+          },
+          {
+            "text": "And of His fullness we have all received, and grace for grace.",
+            "num": 16
+          },
+          {
+            "text": "For the law was given through Moses, but grace and truth came through Jesus Christ.",
+            "num": 17
+          }
+        ]
+      },
+      "litanies": {
+        "title": "Litanies",
+        "content": [
+          "We worship You, O Christ, with Your Good Father and the Holy Spirit, for You have come and saved us. Lord have mercy.",
+          "A crown of blessing is the First Hour, which You grant to us, O Christ our God, for the forgiveness of our sins. Lord have mercy.",
+          "O Lord, Who at the First Hour did send Your Holy Spirit upon Your apostles, take not that Spirit from us, O Good One, but renew Him within us. Lord have mercy.",
+          "Create in me a clean heart, O God, and renew a steadfast spirit within me. Cast me not away from Your presence, and take not Your Holy Spirit from me.",
+          "Blessed is the Lord God, for He has visited and redeemed His people. Lord have mercy."
+        ]
+      },
+      "lordsPrayer": {
+        "title": "The Lord's Prayer",
+        "inline": true,
+        "content": [
+          "Our Father Who art in heaven, hallowed be Thy Name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread. And forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from the evil one. In Christ Jesus our Lord. For Thine is the kingdom, the power and the glory, forever. Amen."
+        ]
+      },
+      "closing": {
+        "title": "Concluding Prayer",
+        "inline": false,
+        "content": [
+          "O Lord, Who at the First Hour did send Your Holy Spirit upon Your apostles: take not that Spirit from us, O Good One, but renew Him within us, day by day.",
+          "O Christ, the True Light, Who enlightens and sanctifies every man that comes into the world, let the light of Your countenance shine upon us, that in it we may see the Unapproachable Light. Direct our steps in the way of Your commandments, through the intercessions of Your all-pure Mother, and of all Your saints. Amen."
+        ]
+      }
+    }
+  ]
+}

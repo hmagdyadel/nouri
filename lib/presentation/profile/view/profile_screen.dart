@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider<ProfileCubit>(
       create: (_) => ProfileCubit()..load(),
       child: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (_, state) {
+        builder: (BuildContext ctx, ProfileState state) {
           if (state is! ProfileLoaded) return const Center(child: CircularProgressIndicator());
           return ListView(
             padding: const EdgeInsetsDirectional.all(16),
@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
               SwitchListTile(
                 title: Text(l10n.enable_prayer_reminders),
                 value: state.notificationsEnabled,
-                onChanged: (bool value) => context.read<ProfileCubit>().toggleNotifications(value),
+                onChanged: (bool value) => ctx.read<ProfileCubit>().toggleNotifications(value),
               ),
               Card(child: ListTile(title: Text('🔥 ${l10n.badge_streak_30}'))),
               Card(child: ListTile(title: Text('⭐ ${l10n.badge_full_agpeya}'))),

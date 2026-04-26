@@ -1,3 +1,4 @@
+import 'package:agpeya/core/network/logger_interceptor.dart';
 import 'package:dio/dio.dart';
 
 class DioClient {
@@ -10,10 +11,11 @@ class DioClient {
         receiveTimeout: const Duration(seconds: 15),
       ),
     );
+    dio.interceptors.add(LoggerInterceptor());
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) => handler.next(options),
-        onError: (error, handler) => handler.next(error),
+        onRequest: (RequestOptions options, RequestInterceptorHandler handler) => handler.next(options),
+        onError: (DioException error, ErrorInterceptorHandler handler) => handler.next(error),
       ),
     );
     return dio;

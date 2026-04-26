@@ -1,4 +1,5 @@
-import 'package:agpeya/core/network/api_service.dart';
+import 'package:agpeya/core/network/agpeya_api_service.dart';
+import 'package:agpeya/core/network/bible_api_service.dart';
 import 'package:agpeya/core/network/dio_client.dart';
 import 'package:agpeya/core/network/network_info.dart';
 import 'package:agpeya/core/notifications/local_notifications_service.dart';
@@ -7,6 +8,7 @@ import 'package:agpeya/data/repositories/leaderboard_repository.dart';
 import 'package:agpeya/data/repositories/prayer_repository.dart';
 import 'package:agpeya/data/repositories/auth_repository.dart';
 import 'package:agpeya/data/sources/local/prayer_local_source.dart';
+import 'package:agpeya/data/sources/local/agpeya_local_source.dart';
 import 'package:agpeya/data/sources/remote/agpeya_api_source.dart';
 import 'package:agpeya/data/sources/remote/firebase_remote_source.dart';
 import 'package:agpeya/domain/usecases/get_daily_gospel_usecase.dart';
@@ -38,8 +40,10 @@ Future<void> configureDependencies() async {
     FlutterLocalNotificationsPlugin.new,
   );
 
-  getIt.registerLazySingleton<AgpeyaApiService>(() => AgpeyaApiService(getIt()));
+  getIt.registerLazySingleton<AgpeyaApiService>(() => AgpeyaApiService(getIt<Dio>()));
+  getIt.registerLazySingleton<BibleApiService>(() => BibleApiService(getIt<Dio>()));
   getIt.registerLazySingleton<AgpeyaApiSource>(() => AgpeyaApiSource(getIt()));
+  getIt.registerLazySingleton<AgpeyaLocalSource>(AgpeyaLocalSource.new);
   getIt.registerLazySingleton<PrayerLocalSource>(() => PrayerLocalSource(getIt()));
   getIt.registerLazySingleton<FirebaseRemoteSource>(
     () => FirebaseRemoteSource(firestore: getIt(), auth: getIt()),
@@ -48,12 +52,13 @@ Future<void> configureDependencies() async {
   getIt.registerLazySingleton<PrayerRepository>(
     () => PrayerRepositoryImpl(
       apiSource: getIt(),
+      localAgpeyaSource: getIt(),
       localSource: getIt(),
       firebaseSource: getIt(),
       functions: getIt(),
     ),
   );
-  getIt.registerLazySingleton<LeaderboardRepository>(LeaderboardRepository.new);
+  getIt.registerLazySingleton<LeaderboardRepository>(() => LeaderboardRepository(getIt()));
   getIt.registerLazySingleton<GospelRepository>(() => GospelRepository(getIt()));
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepository(getIt(), getIt(), getIt(), getIt()),
