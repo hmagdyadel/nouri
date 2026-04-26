@@ -9,12 +9,12 @@ class GospelScreen extends StatelessWidget {
   const GospelScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+  Widget build(BuildContext rootContext) {
+    final l10n = AppLocalizations.of(rootContext)!;
     return BlocProvider<GospelCubit>(
       create: (_) => GospelCubit()..load(),
       child: BlocBuilder<GospelCubit, GospelState>(
-        builder: (_, state) {
+        builder: (BuildContext context, GospelState state) {
           if (state is! GospelLoaded) return const Center(child: CircularProgressIndicator());
           return DefaultTabController(
             length: 3,
@@ -24,7 +24,7 @@ class GospelScreen extends StatelessWidget {
                   padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 8),
                   child: Align(
                     alignment: AlignmentDirectional.centerStart,
-                    child: Text(l10n.todays_reading, style: Theme.of(context).textTheme.titleMedium),
+                    child: Text(l10n.todays_reading, style: Theme.of(rootContext).textTheme.titleMedium),
                   ),
                 ),
                 TabBar(
