@@ -48,11 +48,17 @@ class _PrayerReaderScreenState extends State<PrayerReaderScreen> {
                   ),
                   SingleChildScrollView(
                     padding: const EdgeInsets.all(16),
-                    child: Text(l10n.prime_content_en, style: TextStyle(fontSize: fontSize)),
+                    child: Text(
+                      fallbackPrayerEnglishByHour[widget.hour] ?? l10n.prime_content_en,
+                      style: TextStyle(fontSize: fontSize),
+                    ),
                   ),
                   SingleChildScrollView(
                     padding: const EdgeInsets.all(16),
-                    child: Text('Ⲡⲣⲟⲥⲉⲩⲭⲏ ⲛ̀ⲧⲉ ⲡⲣⲓⲙⲉ', style: TextStyle(fontSize: fontSize)),
+                    child: Text(
+                      fallbackPrayerCopticByHour[widget.hour] ?? fallbackGospelCoptic,
+                      style: TextStyle(fontSize: fontSize),
+                    ),
                   ),
                 ],
               ),

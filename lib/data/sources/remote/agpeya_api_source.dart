@@ -9,9 +9,11 @@ class AgpeyaApiSource {
   Future<String> getPrayerContent(int hour) async {
     final response = await apiService.getPrayerHourHtml(hour.toString());
     final document = html_parser.parse(response.data ?? '');
-    final String text = document.body?.text.trim() ?? '';
-    if (text.isEmpty && hour == 1) {
-      return firstHourFallbackArabic;
+    final String raw = document.body?.text.trim() ?? '';
+    final String text = raw.replaceAll(RegExp(r'\s+'), ' ').trim();
+    if (text.isEmpty || text.length < 80) {
+      return fallbackPrayerArabicByHour[hour] ??
+          (hour == 1 ? firstHourFallbackArabic : 'صلاة الأجبية غير متاحة حاليا.');
     }
     return text;
   }

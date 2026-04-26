@@ -54,7 +54,7 @@ Future<void> configureDependencies() async {
     ),
   );
   getIt.registerLazySingleton<LeaderboardRepository>(LeaderboardRepository.new);
-  getIt.registerLazySingleton<GospelRepository>(GospelRepository.new);
+  getIt.registerLazySingleton<GospelRepository>(() => GospelRepository(getIt()));
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepository(getIt(), getIt(), getIt(), getIt()),
   );
