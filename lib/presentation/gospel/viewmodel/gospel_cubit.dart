@@ -16,9 +16,34 @@ class GospelCubit extends Cubit<GospelState> {
     final result = await _useCase();
     emit(
       result.fold(
-        (_) => const GospelLoaded('إنجيل اليوم', 'Today gospel', 'Ⲡⲓⲉⲩⲁⲅⲅⲉⲗⲓⲟⲛ'),
-        (gospel) => GospelLoaded(gospel.arabic, gospel.english, gospel.coptic),
+        (_) => const GospelLoaded(
+          ar: 'إنجيل اليوم',
+          en: 'Today gospel',
+          cop: 'Ⲡⲓⲉⲩⲁⲅⲅⲉⲗⲓⲟⲛ',
+          readToday: false,
+        ),
+        (gospel) => GospelLoaded(
+          ar: gospel.arabic,
+          en: gospel.english,
+          cop: gospel.coptic,
+          readToday: false,
+        ),
       ),
     );
+  }
+
+  void markReadToday() {
+    if (state is! GospelLoaded) return;
+    emit((state as GospelLoaded).copyWith(readToday: true));
+  }
+
+  void toggleHighlightedVerse(int index) {
+    if (state is! GospelLoaded) return;
+    final GospelLoaded loaded = state as GospelLoaded;
+    if (loaded.highlightedVerse == index) {
+      emit(loaded.copyWith(clearHighlight: true));
+      return;
+    }
+    emit(loaded.copyWith(highlightedVerse: index));
   }
 }

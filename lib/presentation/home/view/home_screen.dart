@@ -1,6 +1,8 @@
 import 'package:agpeya/core/theme/app_colors.dart';
 import 'package:agpeya/core/theme/app_text_styles.dart';
+import 'package:agpeya/core/constants/prayer_data.dart';
 import 'package:agpeya/l10n/app_localizations.dart';
+import 'package:agpeya/presentation/agpeya/view/prayer_reader_screen.dart';
 import 'package:agpeya/presentation/home/view/profile_bottom_sheet.dart';
 import 'package:agpeya/presentation/home/viewmodel/home_cubit.dart';
 import 'package:agpeya/presentation/home/viewmodel/home_state.dart';
@@ -152,6 +154,55 @@ class HomeScreen extends StatelessWidget {
                                 tooltip: l10n.share_card_btn,
                               ),
                             ],
+                          ),
+                          const SizedBox(height: 12),
+                          Align(
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Text(l10n.todays_progress),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: agpeyaHours.map((PrayerHourData hour) {
+                              final bool done = loaded.progressHours.contains(hour.hour);
+                              return Expanded(
+                                child: InkWell(
+                                  onTap: () async {
+                                    final String content =
+                                        await context.read<HomeCubit>().openPrayerContent(hour.hour);
+                                    if (!context.mounted) return;
+                                    await Navigator.of(context).push(
+                                      MaterialPageRoute<void>(
+                                        builder: (_) => PrayerReaderScreen(
+                                          hourName: hour.arabicName,
+                                          hour: hour.hour,
+                                          content: content,
+                                        ),
+                                      ),
+                                    );
+                                    if (!context.mounted) return;
+                                    await context.read<HomeCubit>().load();
+                                  },
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        width: 24,
+                                        height: 24,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: done ? Colors.amber : Colors.transparent,
+                                          border: Border.all(color: done ? Colors.amber : Colors.white70),
+                                        ),
+                                        child: done
+                                            ? const Icon(Icons.check, size: 14, color: Colors.white)
+                                            : null,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text('${hour.hour}', style: const TextStyle(fontSize: 11, color: Colors.white)),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                           ),
                           const SizedBox(height: 12),
                           Row(

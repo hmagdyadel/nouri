@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // Public read for church/family leaderboard discovery.
+    match /churches/{churchId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /familyGroups/{groupId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    // Username reservation (client checks availability; writes should be
+    // server-controlled in production).
+    match /usernames/{username} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid);
+      allow update: if isOwner(uid)
+        && !('weeklyPoints' in request.resource.data.diff(resource.data).changedKeys())
+        && !('monthlyPoints' in request.resource.data.diff(resource.data).changedKeys())
+        && !('totalPoints' in request.resource.data.diff(resource.data).changedKeys())
+        && !('currentStreak' in request.resource.data.diff(resource.data).changedKeys())
+        && !('longestStreak' in request.resource.data.diff(resource.data).changedKeys());
+      allow delete: if false;
+    }
+
+    // Prayer logs are user-owned; points are server-driven through functions.
+    match /prayerLogs/{uid}/logs/{dateKey} {
+      allow read: if isOwner(uid);
+      allow write: if isOwner(uid)
+        && (!('pointsEarned' in request.resource.data)
+            || request.resource.data.pointsEarned == resource.data.pointsEarned);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

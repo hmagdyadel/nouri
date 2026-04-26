@@ -15,6 +15,8 @@ type PrayerLog = {
   completedAt?: admin.firestore.Timestamp;
 };
 
+const ALLOWED_HOURS = new Set<number>([0, 1, 3, 6, 9, 11, 12]);
+
 function calculatePoints(log: PrayerLog, previousExists: boolean): number {
   const hours = new Set(log.hoursCompleted ?? []);
   let points = 0;
@@ -117,6 +119,9 @@ export const logPrayerCallable = onCall(async (request) => {
   if (Number.isNaN(hour)) {
     throw new HttpsError('invalid-argument', 'hour must be a number.');
   }
+  if (!ALLOWED_HOURS.has(hour)) {
+    throw new HttpsError('invalid-argument', 'hour is not an Agpeya hour.');
+  }
 
   const dateKey = new Date().toISOString().slice(0, 10);
   const docRef = db.collection('prayerLogs').doc(uid).collection('logs').doc(dateKey);
@@ -147,12 +152,17 @@ export const migrateGuestLogsCallable = onCall(async (request) => {
   if (!logs) {
     throw new HttpsError('invalid-argument', 'logs payload is required.');
   }
+  const keys = Object.keys(logs);
+  if (keys.length > 45) {
+    throw new HttpsError('invalid-argument', 'logs payload too large.');
+  }
 
   const tasks = Object.entries(logs).map(async ([dateKey, csv]) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateKey)) return;
     const hours = (csv || '')
       .split(',')
       .map((x) => Number(x))
-      .filter((x) => !Number.isNaN(x));
+      .filter((x) => !Number.isNaN(x) && ALLOWED_HOURS.has(x));
     if (hours.length === 0) return;
     const ref = db.collection('prayerLogs').doc(uid).collection('logs').doc(dateKey);
     const snap = await ref.get();

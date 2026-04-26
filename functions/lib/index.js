@@ -41,6 +41,7 @@ const https_1 = require("firebase-functions/v2/https");
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 admin.initializeApp();
 const db = admin.firestore();
+const ALLOWED_HOURS = new Set([0, 1, 3, 6, 9, 11, 12]);
 function calculatePoints(log, previousExists) {
     var _a;
     const hours = new Set((_a = log.hoursCompleted) !== null && _a !== void 0 ? _a : []);
@@ -131,6 +132,9 @@ exports.logPrayerCallable = (0, https_1.onCall)(async (request) => {
     if (Number.isNaN(hour)) {
         throw new https_1.HttpsError('invalid-argument', 'hour must be a number.');
     }
+    if (!ALLOWED_HOURS.has(hour)) {
+        throw new https_1.HttpsError('invalid-argument', 'hour is not an Agpeya hour.');
+    }
     const dateKey = new Date().toISOString().slice(0, 10);
     const docRef = db.collection('prayerLogs').doc(uid).collection('logs').doc(dateKey);
     const snap = await docRef.get();
@@ -155,12 +159,18 @@ exports.migrateGuestLogsCallable = (0, https_1.onCall)(async (request) => {
     if (!logs) {
         throw new https_1.HttpsError('invalid-argument', 'logs payload is required.');
     }
+    const keys = Object.keys(logs);
+    if (keys.length > 45) {
+        throw new https_1.HttpsError('invalid-argument', 'logs payload too large.');
+    }
     const tasks = Object.entries(logs).map(async ([dateKey, csv]) => {
         var _a, _b, _c;
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(dateKey))
+            return;
         const hours = (csv || '')
             .split(',')
             .map((x) => Number(x))
-            .filter((x) => !Number.isNaN(x));
+            .filter((x) => !Number.isNaN(x) && ALLOWED_HOURS.has(x));
         if (hours.length === 0)
             return;
         const ref = db.collection('prayerLogs').doc(uid).collection('logs').doc(dateKey);

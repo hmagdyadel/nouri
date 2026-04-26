@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:agpeya/core/error/failure.dart';
 import 'package:agpeya/data/sources/local/prayer_local_source.dart';
 import 'package:agpeya/data/sources/remote/firebase_remote_source.dart';
@@ -52,6 +54,11 @@ class AuthRepository {
 
   Future<Either<Failure, UserCredential>> signInWithGoogle() async {
     try {
+      if (!(Platform.isAndroid || Platform.isIOS || Platform.isMacOS)) {
+        return Left<Failure, UserCredential>(
+          const ServerFailure('Google sign-in is not enabled on this platform.'),
+        );
+      }
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
         return Left<Failure, UserCredential>(ServerFailure('Google sign-in cancelled.'));
@@ -76,6 +83,12 @@ class AuthRepository {
 
   Future<Either<Failure, UserCredential>> signInWithApple() async {
     try {
+      final bool available = await SignInWithApple.isAvailable();
+      if (!available) {
+        return Left<Failure, UserCredential>(
+          const ServerFailure('Apple sign-in is not available on this device.'),
+        );
+      }
       final AuthorizationCredentialAppleID credential = await SignInWithApple.getAppleIDCredential(
         scopes: <AppleIDAuthorizationScopes>[
           AppleIDAuthorizationScopes.email,
