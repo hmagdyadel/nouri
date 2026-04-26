@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "792299668469",
+    "project_id": "nouri-39428",
+    "storage_bucket": "nouri-39428.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792299668469:android:6888fc54166af0a74116bc",
+        "android_client_info": {
+          "package_name": "com.nouri.nouri"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD13ur-4bTwjjgA2HSlqt0XSFI0rUYlT0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
