@@ -74,4 +74,6 @@ flutter:
     - assets/agpeya/agpeya_ar.json
     - assets/agpeya/agpeya_en.json
     - assets/agpeya/agpeya_cop.json
+    - assets/bible/bible_ar.json
+    - assets/bible/bible_en.json
 

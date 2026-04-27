@@ -1,79 +1,65 @@
 import 'package:agpeya/core/error/failure.dart';
 import 'package:agpeya/core/logger/app_logger.dart';
 import 'package:agpeya/core/constants/prayer_data.dart';
-import 'package:agpeya/core/network/bible_api_service.dart';
-import 'package:agpeya/core/storage/hive_boxes.dart';
-import 'package:agpeya/data/models/bible_api_models.dart';
+import 'package:agpeya/data/repositories/bible_repository.dart';
 import 'package:dartz/dartz.dart';
-import 'package:hive/hive.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:agpeya/data/models/gospel_model.dart';
 
 class GospelRepository {
-  GospelRepository(this._bibleApiService);
-  final BibleApiService _bibleApiService;
+  GospelRepository(this._bibleRepository);
+  final BibleRepository _bibleRepository;
 
   Future<Either<Failure, GospelModel>> getDailyGospel() async {
-    AppLogger.info('Fetching daily gospel');
-    final Box<dynamic> box = Hive.box<dynamic>(HiveBoxes.bibleChapters);
-    const String cacheKey = 'daily_gospel_arbnav_jhn_1';
-    final List<ConnectivityResult> connectivity = await Connectivity().checkConnectivity();
-    final bool online = !connectivity.contains(ConnectivityResult.none);
+    AppLogger.info('Fetching daily gospel locally');
 
     try {
-      if (online) {
-        final ChapterResponseWrapper response = await _bibleApiService.getChapter('ARBNAV', 'JHN', 1);
-        
-        final List<String> verses = <String>[];
-        if (response.chapter != null) {
-          for (final VerseContent item in response.chapter!.content) {
-            if (item.type == 'verse' && item.content != null) {
-              verses.add(item.content!.join(' '));
-            }
-          }
-        }
-        
-        final String extracted = verses.join('\n\n');
-        
-        if (extracted.length > 60) {
-          await box.put(cacheKey, extracted);
-          AppLogger.success('Gospel fetched and cached successfully', data: <String, dynamic>{'length': extracted.length});
-          return Right<Failure, GospelModel>(
-            GospelModel(
-              arabic: extracted,
-              english: fallbackGospelEnglish,
-              coptic: fallbackGospelCoptic,
-              reference: 'John 1:1-17',
-            ),
-          );
-        }
-      }
-    } catch (e, stack) {
-      AppLogger.error('Failed to fetch gospel from network', error: e, stack: stack);
-    }
+      final Either<Failure, List<String>> arChapter = await _bibleRepository.getChapter('jn', 1, 'ar');
+      final Either<Failure, List<String>> enChapter = await _bibleRepository.getChapter('jn', 1, 'en');
 
-    AppLogger.warning('Offline or network failed — loading gospel from Hive', data: <String, dynamic>{'key': cacheKey});
-    final dynamic cached = box.get(cacheKey);
-    if (cached is String && cached.length > 60) {
-      AppLogger.hive('Gospel cache hit', box: HiveBoxes.bibleChapters, key: cacheKey);
+      String arabic = fallbackGospelArabic;
+      String english = fallbackGospelEnglish;
+
+      arChapter.fold(
+        (Failure f) => AppLogger.error('Failed to load Arabic gospel: ${f.message}'),
+        (List<String> verses) {
+          // John 1:1-17
+          if (verses.length >= 17) {
+            arabic = verses.sublist(0, 17).join('\n\n');
+          } else {
+            arabic = verses.join('\n\n');
+          }
+        },
+      );
+
+      enChapter.fold(
+        (Failure f) => AppLogger.error('Failed to load English gospel: ${f.message}'),
+        (List<String> verses) {
+          if (verses.length >= 17) {
+            english = verses.sublist(0, 17).join('\n\n');
+          } else {
+            english = verses.join('\n\n');
+          }
+        },
+      );
+
       return Right<Failure, GospelModel>(
         GospelModel(
-          arabic: cached,
+          arabic: arabic,
+          english: english,
+          coptic: fallbackGospelCoptic,
+          reference: 'John 1:1-17',
+        ),
+      );
+    } catch (e, stack) {
+      AppLogger.error('Failed to fetch local gospel', error: e, stack: stack);
+      return const Right<Failure, GospelModel>(
+        GospelModel(
+          arabic: fallbackGospelArabic,
           english: fallbackGospelEnglish,
           coptic: fallbackGospelCoptic,
           reference: 'John 1:1-17',
         ),
       );
     }
-
-    AppLogger.error('Gospel cache miss — using fallback');
-    return const Right<Failure, GospelModel>(
-      GospelModel(
-        arabic: fallbackGospelArabic,
-        english: fallbackGospelEnglish,
-        coptic: fallbackGospelCoptic,
-        reference: 'John 1:1-17',
-      ),
-    );
   }
 }

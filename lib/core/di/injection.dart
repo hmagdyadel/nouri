@@ -1,5 +1,6 @@
 import 'package:agpeya/core/network/agpeya_api_service.dart';
-import 'package:agpeya/core/network/bible_api_service.dart';
+import 'package:agpeya/data/repositories/bible_repository.dart';
+import 'package:agpeya/data/sources/local/bible_local_source.dart';
 import 'package:agpeya/core/network/dio_client.dart';
 import 'package:agpeya/core/network/network_info.dart';
 import 'package:agpeya/core/notifications/local_notifications_service.dart';
@@ -41,7 +42,8 @@ Future<void> configureDependencies() async {
   );
 
   getIt.registerLazySingleton<AgpeyaApiService>(() => AgpeyaApiService(getIt<Dio>()));
-  getIt.registerLazySingleton<BibleApiService>(() => BibleApiService(getIt<Dio>()));
+  getIt.registerLazySingleton<BibleLocalSource>(BibleLocalSource.new);
+  getIt.registerLazySingleton<BibleRepository>(() => BibleRepository(getIt()));
   getIt.registerLazySingleton<AgpeyaLocalSource>(AgpeyaLocalSource.new);
   getIt.registerLazySingleton<AgpeyaRepository>(() => AgpeyaRepository(getIt()));
   getIt.registerLazySingleton<PrayerLocalSource>(() => PrayerLocalSource(getIt()));
