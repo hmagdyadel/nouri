@@ -71,4 +71,7 @@ flutter:
     - assets/images/
     - assets/lottie/
     - assets/data/
+    - assets/agpeya/agpeya_ar.json
+    - assets/agpeya/agpeya_en.json
+    - assets/agpeya/agpeya_cop.json
 

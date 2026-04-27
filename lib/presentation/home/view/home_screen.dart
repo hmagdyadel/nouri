@@ -267,14 +267,13 @@ class HomeScreen extends StatelessWidget {
                           return Expanded(
                             child: GestureDetector(
                               onTap: () async {
-                                final List<String> content = await context.read<HomeCubit>().openPrayerContent(hour.hour);
+                                await context.read<HomeCubit>().openPrayerContent(hour.hour);
                                 if (!context.mounted) return;
                                 await Navigator.of(context).push(
                                   MaterialPageRoute<void>(
                                     builder: (_) => PrayerReaderScreen(
                                       hourName: hour.arabicName,
                                       hour: hour.hour,
-                                      content: content,
                                     ),
                                   ),
                                 );

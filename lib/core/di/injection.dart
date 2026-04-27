@@ -5,11 +5,11 @@ import 'package:agpeya/core/network/network_info.dart';
 import 'package:agpeya/core/notifications/local_notifications_service.dart';
 import 'package:agpeya/data/repositories/gospel_repository.dart';
 import 'package:agpeya/data/repositories/leaderboard_repository.dart';
+import 'package:agpeya/data/repositories/agpeya_repository.dart';
 import 'package:agpeya/data/repositories/prayer_repository.dart';
 import 'package:agpeya/data/repositories/auth_repository.dart';
 import 'package:agpeya/data/sources/local/prayer_local_source.dart';
 import 'package:agpeya/data/sources/local/agpeya_local_source.dart';
-import 'package:agpeya/data/sources/remote/agpeya_api_source.dart';
 import 'package:agpeya/data/sources/remote/firebase_remote_source.dart';
 import 'package:agpeya/domain/usecases/get_daily_gospel_usecase.dart';
 import 'package:agpeya/domain/usecases/get_leaderboard_usecase.dart';
@@ -42,8 +42,8 @@ Future<void> configureDependencies() async {
 
   getIt.registerLazySingleton<AgpeyaApiService>(() => AgpeyaApiService(getIt<Dio>()));
   getIt.registerLazySingleton<BibleApiService>(() => BibleApiService(getIt<Dio>()));
-  getIt.registerLazySingleton<AgpeyaApiSource>(() => AgpeyaApiSource(getIt()));
   getIt.registerLazySingleton<AgpeyaLocalSource>(AgpeyaLocalSource.new);
+  getIt.registerLazySingleton<AgpeyaRepository>(() => AgpeyaRepository(getIt()));
   getIt.registerLazySingleton<PrayerLocalSource>(() => PrayerLocalSource(getIt()));
   getIt.registerLazySingleton<FirebaseRemoteSource>(
     () => FirebaseRemoteSource(firestore: getIt(), auth: getIt()),
@@ -51,8 +51,6 @@ Future<void> configureDependencies() async {
 
   getIt.registerLazySingleton<PrayerRepository>(
     () => PrayerRepositoryImpl(
-      apiSource: getIt(),
-      localAgpeyaSource: getIt(),
       localSource: getIt(),
       firebaseSource: getIt(),
       functions: getIt(),

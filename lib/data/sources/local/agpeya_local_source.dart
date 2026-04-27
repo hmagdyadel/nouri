@@ -1,153 +1,67 @@
 import 'dart:convert';
-import 'package:flutter/services.dart';
-import 'package:injectable/injectable.dart';
-import '../../models/agpeya_section.dart';
-import '../../../core/logger/app_logger.dart';
 
-@lazySingleton
+import 'package:agpeya/core/logger/app_logger.dart';
+import 'package:agpeya/data/models/agpeya_model.dart';
+import 'package:flutter/services.dart';
+
 class AgpeyaLocalSource {
-  Future<Map<String, dynamic>?> loadLanguage(String lang) async {
+  AgpeyaFileModel? _arCache;
+  AgpeyaFileModel? _enCache;
+  AgpeyaFileModel? _copCache;
+
+  Future<AgpeyaHourModel?> getHour(String hourId, String lang) async {
+    final AgpeyaFileModel file = await _loadFile(lang);
+    AppLogger.info(
+      'Loading Agpeya from local JSON',
+      data: <String, dynamic>{'hour': hourId, 'lang': lang},
+    );
     try {
-      final String path = 'assets/data/agpeya_$lang.json';
-      final String jsonString = await rootBundle.loadString(path);
-      return jsonDecode(jsonString) as Map<String, dynamic>;
-    } catch (e) {
-      AppLogger.error('Failed to load local agpeya for $lang', error: e);
+      final AgpeyaHourModel hour = file.hours.firstWhere((AgpeyaHourModel h) => h.id == hourId);
+      AppLogger.success('Agpeya hour loaded', data: <String, dynamic>{'hour': hourId, 'lang': lang});
+      return hour;
+    } catch (_) {
+      AppLogger.error(
+        'Hour not found in local file',
+        error: 'id=$hourId not in $lang file',
+      );
       return null;
     }
   }
 
-  Future<List<AgpeyaSection>> getPrayerContent(int hour, int langIndex) async {
-    final String lang = langIndex == 0 ? 'arabic' : (langIndex == 1 ? 'english' : 'coptic');
-    final Map<String, dynamic>? data = await loadLanguage(lang);
-    if (data == null) return <AgpeyaSection>[];
-
-    final List<dynamic> hours = data['hours'] as List<dynamic>;
-    final String hourKey = _mapHourToId(hour);
-    final dynamic hourData = hours.firstWhere(
-      (h) => h['id'] == hourKey,
-      orElse: () => null,
-    );
-
-    if (hourData == null) return <AgpeyaSection>[];
-
-    final List<AgpeyaSection> sections = <AgpeyaSection>[];
-    
-    // Header
-    sections.add(AgpeyaSection(
-      title: hourData['name'] as String,
-      subtitle: hourData['englishName'] as String?,
-      content: hourData['introduction'] as String,
-    ));
-
-    // Opening
-    if (hourData['opening'] != null) {
-      final List<dynamic> content = hourData['opening']['content'] as List<dynamic>;
-      sections.add(AgpeyaSection(
-        title: langIndex == 0 ? 'الافتتاحية' : 'Opening',
-        content: content.join('\n\n'),
-      ));
-    }
-
-    // Thanksgiving
-    if (hourData['thanksgiving'] != null) {
-      final Map<String, dynamic> tg = hourData['thanksgiving'] as Map<String, dynamic>;
-      final List<dynamic> content = tg['content'] as List<dynamic>;
-      sections.add(AgpeyaSection(
-        title: tg['title'] as String,
-        content: content.join('\n\n'),
-      ));
-    }
-
-    // Introductory Psalm (Psalm 50)
-    if (hourData['introductoryPsalm'] != null) {
-      final Map<String, dynamic> ps = hourData['introductoryPsalm'] as Map<String, dynamic>;
-      final List<dynamic> verses = ps['verses'] as List<dynamic>;
-      final String content = verses.map((v) => '[${v['num']}] ${v['text']}').join('\n');
-      sections.add(AgpeyaSection(
-        title: ps['title'] as String,
-        subtitle: ps['reference'] as String?,
-        content: content,
-      ));
-    }
-
-    // Psalms Intro
-    if (hourData['psalmsIntro'] != null) {
-      sections.add(AgpeyaSection(
-        title: '',
-        content: hourData['psalmsIntro'] as String,
-      ));
-    }
-
-    // Psalms
-    if (hourData['psalms'] != null) {
-      final List<dynamic> psalms = hourData['psalms'] as List<dynamic>;
-      for (final dynamic p in psalms) {
-        final List<dynamic> verses = p['verses'] as List<dynamic>;
-        final String content = verses.map((v) => '[${v['num']}] ${v['text']}').join('\n');
-        sections.add(AgpeyaSection(
-          title: p['title'] as String,
-          subtitle: p['reference'] as String?,
-          content: content,
-        ));
-      }
-    }
-
-    // Gospel
-    if (hourData['gospel'] != null) {
-      final Map<String, dynamic> gospel = hourData['gospel'] as Map<String, dynamic>;
-      final List<dynamic> verses = gospel['verses'] as List<dynamic>;
-      final String content = verses.map((v) => '[${v['num']}] ${v['text']}').join('\n');
-      sections.add(AgpeyaSection(
-        title: langIndex == 0 ? 'الإنجيل المقدس' : 'Holy Gospel',
-        subtitle: '${gospel['rubric'] ?? ''}\n\n${gospel['reference']}',
-        content: content,
-      ));
-    }
-
-    // Litanies
-    if (hourData['litanies'] != null) {
-      final Map<String, dynamic> lit = hourData['litanies'] as Map<String, dynamic>;
-      final List<dynamic> content = lit['content'] as List<dynamic>;
-      sections.add(AgpeyaSection(
-        title: lit['title'] as String,
-        content: content.join('\n\n'),
-      ));
-    }
-
-    // Lord's Prayer
-    if (hourData['lordsPrayer'] != null) {
-      final Map<String, dynamic> lp = hourData['lordsPrayer'] as Map<String, dynamic>;
-      final List<dynamic> content = lp['content'] as List<dynamic>;
-      sections.add(AgpeyaSection(
-        title: lp['title'] as String,
-        content: content.join('\n\n'),
-      ));
-    }
-
-    // Closing
-    if (hourData['closing'] != null) {
-      final Map<String, dynamic> cl = hourData['closing'] as Map<String, dynamic>;
-      final List<dynamic> content = cl['content'] as List<dynamic>;
-      sections.add(AgpeyaSection(
-        title: cl['title'] as String,
-        content: content.join('\n\n'),
-      ));
-    }
-
-    return sections;
+  Future<List<AgpeyaHourModel>> getAllHours(String lang) async {
+    final AgpeyaFileModel file = await _loadFile(lang);
+    return file.hours;
   }
 
-  String _mapHourToId(int hour) {
-    switch (hour) {
-      case 1: return 'prime';
-      case 3: return 'terce';
-      case 6: return 'sext';
-      case 9: return 'none';
-      case 11: return 'vespers';
-      case 12: return 'compline';
-      case 0: return 'midnight';
-      default: return 'prime';
+  Future<AgpeyaFileModel> _loadFile(String lang) async {
+    switch (lang) {
+      case 'ar':
+        if (_arCache != null) return _arCache!;
+        _arCache = await _parse('assets/agpeya/agpeya_ar.json', fallback: 'assets/data/agpeya_arabic.json');
+        return _arCache!;
+      case 'en':
+        if (_enCache != null) return _enCache!;
+        _enCache = await _parse('assets/agpeya/agpeya_en.json', fallback: 'assets/data/agpeya_english.json');
+        return _enCache!;
+      case 'cop':
+        if (_copCache != null) return _copCache!;
+        _copCache = await _parse('assets/agpeya/agpeya_cop.json', fallback: 'assets/data/agpeya_coptic.json');
+        return _copCache!;
+      default:
+        throw Exception('Unknown language: $lang');
+    }
+  }
+
+  Future<AgpeyaFileModel> _parse(String assetPath, {required String fallback}) async {
+    AppLogger.info('Parsing Agpeya JSON', data: <String, dynamic>{'path': assetPath});
+    try {
+      final String jsonStr = await rootBundle.loadString(assetPath);
+      final Map<String, dynamic> json = jsonDecode(jsonStr) as Map<String, dynamic>;
+      return AgpeyaFileModel.fromJson(json);
+    } catch (_) {
+      final String jsonStr = await rootBundle.loadString(fallback);
+      final Map<String, dynamic> json = jsonDecode(jsonStr) as Map<String, dynamic>;
+      return AgpeyaFileModel.fromJson(json);
     }
   }
 }

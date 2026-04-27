@@ -27,7 +27,7 @@ class DesignRouter extends StatelessWidget {
           _btn(
             context,
             '✝️ Prayer Reader Runtime',
-            const PrayerReaderScreen(hourName: 'صلاة بكرة', hour: 1, content: <String>['نص تجريبي للصلاة', '', '']),
+            const PrayerReaderScreen(hourName: 'صلاة بكرة', hour: 1),
           ),
           _btn(context, '📗 Gospel Runtime', const GospelScreen()),
           _btn(context, '🏆 Competition Runtime', const CompetitionScreen()),

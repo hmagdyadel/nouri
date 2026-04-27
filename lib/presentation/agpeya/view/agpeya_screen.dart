@@ -19,7 +19,10 @@ class AgpeyaScreen extends StatelessWidget {
           if (state is AgpeyaLoading || state is AgpeyaInitial) {
             return const Center(child: CircularProgressIndicator());
           }
-          final AgpeyaLoaded loaded = state as AgpeyaLoaded;
+          if (state is! AgpeyaLoaded) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final AgpeyaLoaded loaded = state;
           return SafeArea(
             bottom: false,
             child: Container(
@@ -69,14 +72,18 @@ class AgpeyaScreen extends StatelessWidget {
                         final bool completed = loaded.completedToday.contains(hour.hour);
                         return GestureDetector(
                           onTap: () async {
-                            final List<String> content = await context.read<AgpeyaCubit>().openHour(hour);
+                            final AgpeyaCubit cubit = context.read<AgpeyaCubit>();
+                            await cubit.openHour(hour);
                             if (!context.mounted) return;
                             final bool? didComplete = await Navigator.of(context).push<bool>(
                               MaterialPageRoute<bool>(
-                                builder: (_) => PrayerReaderScreen(
-                                  hourName: hour.arabicName,
-                                  hour: hour.hour,
-                                  content: content,
+                                builder: (_) => BlocProvider<AgpeyaCubit>.value(
+                                  value: cubit,
+                                  child: PrayerReaderScreen(
+                                    hourName: hour.arabicName,
+                                    hour: hour.hour,
+                                    cubit: cubit,
+                                  ),
                                 ),
                               ),
                             );
@@ -168,6 +175,8 @@ class AgpeyaScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 6),
                                     if (completed) const Icon(Icons.check_circle, size: 20, color: AppColors.primaryGoldDark),
+                                    const SizedBox(height: 4),
+                                    _langIndicator(context.read<AgpeyaCubit>(), _mapHourToId(hour.hour)),
                                   ],
                                 ),
                               ],
@@ -197,5 +206,56 @@ class AgpeyaScreen extends StatelessWidget {
       AppColors.backgroundNavy,
     ];
     return colors[index % colors.length];
+  }
+
+  Widget _langIndicator(AgpeyaCubit cubit, String hourId) {
+    final Map<String, bool> m = cubit.languageAvailability[hourId] ??
+        <String, bool>{'ar': true, 'en': false, 'cop': false};
+    return Row(
+      children: <Widget>[
+        _dot('AR', true),
+        const SizedBox(width: 4),
+        _dot('EN', m['en'] ?? false),
+        const SizedBox(width: 4),
+        _dot('COP', m['cop'] ?? false),
+      ],
+    );
+  }
+
+  Widget _dot(String t, bool ok) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      decoration: BoxDecoration(
+        color: ok ? Colors.green.withValues(alpha: 0.14) : Colors.orange.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: Text(
+        '$t ${ok ? '✓' : '⚠'}',
+        style: TextStyle(
+          fontSize: 9,
+          fontFamily: 'Inter',
+          color: ok ? Colors.green : Colors.orange,
+        ),
+      ),
+    );
+  }
+
+  String _mapHourToId(int hour) {
+    switch (hour) {
+      case 1:
+        return 'prime';
+      case 3:
+        return 'terce';
+      case 6:
+        return 'sext';
+      case 9:
+        return 'none';
+      case 11:
+        return 'vespers';
+      case 12:
+        return 'compline';
+      default:
+        return 'midnight';
+    }
   }
 }

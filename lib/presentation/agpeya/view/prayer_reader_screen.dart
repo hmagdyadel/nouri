@@ -1,34 +1,36 @@
-
 import 'package:agpeya/core/theme/app_colors.dart';
+import 'package:agpeya/data/models/agpeya_model.dart';
 import 'package:agpeya/l10n/app_localizations.dart';
+import 'package:agpeya/presentation/agpeya/viewmodel/agpeya_cubit.dart';
+import 'package:agpeya/presentation/agpeya/viewmodel/agpeya_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PrayerReaderScreen extends StatefulWidget {
   const PrayerReaderScreen({
     required this.hourName,
     required this.hour,
-    required this.content,
+    this.cubit,
     super.key,
   });
   final String hourName;
   final int hour;
-  final List<String> content;
+  final AgpeyaCubit? cubit;
 
   @override
   State<PrayerReaderScreen> createState() => _PrayerReaderScreenState();
 }
 
 class _PrayerReaderScreenState extends State<PrayerReaderScreen> {
-  double fontSize = 20;
   bool completing = false;
   bool showSuccess = false;
   int selectedTab = 0;
+  final List<String> _langs = <String>['ar', 'en', 'cop'];
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final List<String> tabs = <String>[l10n.tab_arabic, l10n.tab_english, l10n.tab_coptic];
-    final List<String> content = widget.content;
     return Scaffold(
       backgroundColor: AppColors.backgroundNavy,
       body: SafeArea(
@@ -55,7 +57,7 @@ class _PrayerReaderScreenState extends State<PrayerReaderScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => setState(() => fontSize = (fontSize + 1).clamp(16, 34)),
+                    onPressed: () {},
                     icon: const Icon(Icons.format_size, color: Colors.white),
                   ),
                   IconButton(onPressed: () {}, icon: const Icon(Icons.bookmark_border, color: Colors.white)),
@@ -69,7 +71,10 @@ class _PrayerReaderScreenState extends State<PrayerReaderScreen> {
               children: List<Widget>.generate(tabs.length, (int index) {
                 final bool active = selectedTab == index;
                 return GestureDetector(
-                  onTap: () => setState(() => selectedTab = index),
+                  onTap: () {
+                    setState(() => selectedTab = index);
+                    widget.cubit?.switchLanguage(_langs[index], _mapHourToId(widget.hour));
+                  },
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
@@ -90,26 +95,48 @@ class _PrayerReaderScreenState extends State<PrayerReaderScreen> {
               }),
             ),
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(height: 16),
-                    Text(
-                      content[selectedTab],
-                      textAlign: selectedTab == 0 ? TextAlign.right : TextAlign.left,
-                      style: TextStyle(
-                        fontFamily: selectedTab == 2 ? 'NotoSansCoptic' : (selectedTab == 0 ? 'Cairo' : 'PlayfairDisplay'),
-                        fontSize: selectedTab == 2 ? fontSize - 2 : fontSize,
-                        color: selectedTab == 0 ? AppColors.backgroundIvory : (selectedTab == 1 ? AppColors.goldSoft : AppColors.copticRed),
-                        height: selectedTab == 0 ? 1.8 : 1.6,
+              child: widget.cubit == null
+                  ? const Center(
+                      child: Text(
+                        'المحتوى المحلي متاح من شاشة الأجبية',
+                        style: TextStyle(color: Colors.white, fontFamily: 'Cairo'),
                       ),
+                    )
+                  : BlocBuilder<AgpeyaCubit, AgpeyaState>(
+                      bloc: widget.cubit,
+                      builder: (BuildContext context, AgpeyaState state) {
+                        if (state is AgpeyaReaderLoading) {
+                          return const Center(child: CircularProgressIndicator(color: AppColors.primaryGoldDark));
+                        }
+                        if (state is AgpeyaReaderError) {
+                          return Center(child: Text(state.message, style: const TextStyle(color: Colors.white)));
+                        }
+                        if (state is! AgpeyaReaderLoaded) {
+                          return const SizedBox.shrink();
+                        }
+                        return SingleChildScrollView(
+                          padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+                          child: Column(
+                            children: <Widget>[
+                              if (state.fallbackUsed)
+                                Container(
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  padding: const EdgeInsets.all(10),
+                                  color: Colors.orange.withValues(alpha: 0.9),
+                                  child: const Text(
+                                    'النص غير متاح بهذه اللغة — يتم عرض العربية',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white, fontFamily: 'Cairo'),
+                                  ),
+                                ),
+                              _buildSections(state.hour, state.currentLang),
+                              const SizedBox(height: 120),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                    const SizedBox(height: 24),
-                    const SizedBox(height: 120),
-                  ],
-                ),
-              ),
             ),
             if (showSuccess)
               const Padding(
@@ -167,18 +194,12 @@ class _PrayerReaderScreenState extends State<PrayerReaderScreen> {
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: Column(
+                    child: const Column(
                       children: <Widget>[
-                        Slider(
-                          value: fontSize,
-                          min: 16,
-                          max: 32,
-                          activeColor: AppColors.primaryGoldDark,
-                          inactiveColor: AppColors.backgroundNavy,
-                          onChanged: (double v) => setState(() => fontSize = v),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
+                        SizedBox(height: 8),
+                        LinearProgressIndicator(value: .2, color: AppColors.primaryGoldDark, minHeight: 4),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                           child: Row(
                             children: <Widget>[
                               Text('00:45', style: TextStyle(color: Colors.white, fontSize: 11)),
@@ -203,5 +224,170 @@ class _PrayerReaderScreenState extends State<PrayerReaderScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildSections(AgpeyaHourModel hour, String lang) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        if ((hour.introduction ?? '').isNotEmpty)
+          Text(
+            hour.introduction!,
+            textAlign: _align(lang),
+            style: _style(lang).copyWith(fontStyle: FontStyle.italic, color: AppColors.textMuted),
+          ),
+        const SizedBox(height: 12),
+        ..._paragraphs(hour.opening?.content ?? const <String>[], lang),
+        if (hour.thanksgiving != null) ...<Widget>[
+          _header(hour.thanksgiving!.title),
+          ..._paragraphs(hour.thanksgiving!.content, lang),
+        ],
+        if (hour.introductoryPsalm != null) ...<Widget>[
+          _header(hour.introductoryPsalm!.title),
+          ..._verses(hour.introductoryPsalm!.verses, lang),
+        ],
+        if ((hour.psalmsIntro ?? '').isNotEmpty)
+          Text(
+            hour.psalmsIntro!,
+            textAlign: _align(lang),
+            style: _style(lang).copyWith(fontStyle: FontStyle.italic, color: AppColors.textMuted),
+          ),
+        if (hour.psalms != null)
+          ...hour.psalms!.expand((AgpeyaPsalmModel p) => <Widget>[
+                _header(p.title),
+                ..._verses(p.verses, lang),
+              ]),
+        if (hour.gospel != null) ...<Widget>[
+          _header(hour.gospel!.reference),
+          if ((hour.gospel!.rubric ?? '').isNotEmpty)
+            Text(hour.gospel!.rubric!, style: _style(lang).copyWith(fontStyle: FontStyle.italic, color: AppColors.textMuted)),
+          ..._verses(hour.gospel!.verses, lang),
+        ],
+        if (hour.litanies != null) ...<Widget>[
+          _header(hour.litanies!.title),
+          ...hour.litanies!.content.map((String e) => Column(
+                children: <Widget>[
+                  Text(e, textAlign: _align(lang), style: _style(lang)),
+                  const SizedBox(height: 6),
+                  _kyrie(lang),
+                ],
+              )),
+        ],
+        if (hour.lordsPrayer != null) ...<Widget>[
+          _header(hour.lordsPrayer!.title ?? 'الصلاة الربانية'),
+          ..._paragraphs(hour.lordsPrayer!.content, lang),
+        ],
+        if (hour.closing != null) ...<Widget>[
+          _header(hour.closing!.title),
+          ..._paragraphs(hour.closing!.content, lang),
+        ],
+      ],
+    );
+  }
+
+  List<Widget> _paragraphs(List<String> lines, String lang) =>
+      lines.map((String e) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(e, textAlign: _align(lang), style: _style(lang)),
+          )).toList();
+
+  List<Widget> _verses(List<AgpeyaVerseModel> verses, String lang) => verses
+      .map(
+        (AgpeyaVerseModel v) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                width: 24,
+                child: Text('${v.num}', style: const TextStyle(color: AppColors.primaryGoldDark, fontSize: 11)),
+              ),
+              Expanded(child: Text(v.text, style: _style(lang), textAlign: _align(lang))),
+            ],
+          ),
+        ),
+      )
+      .toList();
+
+  Widget _header(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: <Widget>[
+          Expanded(child: Divider(color: AppColors.primaryGoldDark.withValues(alpha: .3))),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: AppColors.primaryGoldDark,
+                fontFamily: 'Cairo',
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(child: Divider(color: AppColors.primaryGoldDark.withValues(alpha: .3))),
+        ],
+      ),
+    );
+  }
+
+  Widget _kyrie(String lang) {
+    final String t = switch (lang) {
+      'en' => 'Kyrie Eleison',
+      'cop' => 'Ⲕⲩⲣⲓⲉ ⲉⲗⲉⲏⲥⲟⲛ',
+      _ => 'يا رب ارحم',
+    };
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Icon(Icons.add, color: AppColors.primaryGoldDark, size: 14),
+        const SizedBox(width: 8),
+        Text(
+          t,
+          style: const TextStyle(
+            fontFamily: 'Cairo',
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primaryGoldDark,
+          ),
+        ),
+        const SizedBox(width: 8),
+        const Icon(Icons.add, color: AppColors.primaryGoldDark, size: 14),
+      ],
+    );
+  }
+
+  TextStyle _style(String lang) {
+    switch (lang) {
+      case 'en':
+        return const TextStyle(fontFamily: 'PlayfairDisplay', fontSize: 17, color: AppColors.backgroundIvory, height: 1.8);
+      case 'cop':
+        return const TextStyle(fontFamily: 'NotoSansCoptic', fontSize: 17, color: AppColors.copticRed, height: 2.2);
+      default:
+        return const TextStyle(fontFamily: 'Cairo', fontSize: 19, color: AppColors.backgroundIvory, height: 2.0);
+    }
+  }
+
+  TextAlign _align(String lang) => lang == 'cop' ? TextAlign.center : (lang == 'ar' ? TextAlign.right : TextAlign.left);
+
+  String _mapHourToId(int hour) {
+    switch (hour) {
+      case 1:
+        return 'prime';
+      case 3:
+        return 'terce';
+      case 6:
+        return 'sext';
+      case 9:
+        return 'none';
+      case 11:
+        return 'vespers';
+      case 12:
+        return 'compline';
+      default:
+        return 'midnight';
+    }
   }
 }
